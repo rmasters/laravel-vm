@@ -14,8 +14,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 5432, host: 5432
   # Redis
   config.vm.network :forwarded_port, guest: 6379, host: 6379
-  # Web
-  config.vm.network :forwarded_port, guest: 80, host: 8000
+
+  # Web - development site
+  config.vm.network :forwarded_port, guest: 80, host: 8500
+  # Beanstalkd Console
+  config.vm.network :forwarded_port, guest: 8501, host: 8501
+  # Redis Commander
+  config.vm.network :forwarded_port, guest: 8502, host: 8502
 
   config.vm.network :private_network, ip: "192.168.33.10"
 

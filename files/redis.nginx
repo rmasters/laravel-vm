@@ -1,0 +1,11 @@
+server {
+    listen 8502;
+
+    access_log /var/log/nginx/redis.access.log;
+    error_log /var/log/nginx/redis.error.log notice;
+
+    location / {
+        proxy_pass http://localhost:8081;
+	proxy_set_header X-Real-IP $remote_addr;
+    }
+}

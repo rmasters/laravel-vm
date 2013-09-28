@@ -15,6 +15,8 @@
         - curl
         - python-software-properties
         - python-pip
+        - nginx
+        - supervisor
 
     # Some apps require node/npm
     - name: ppa for nodejs
@@ -34,6 +36,7 @@
         - php5-cli
         - php5-curl
         - php5-dev
+        - php5-fpm
         - php5-intl
         - php5-mcrypt
         - php5-memcached
@@ -66,6 +69,13 @@
     - name: clone beanstalkd-console
       git: repo=https://github.com/ptrofimov/beanstalk_console.git dest=/srv/beanstalkd
 
+    - name: configure beanstalkd php-fpm pool
+      template: src=files/beanstalkd.php-fpm dest=/etc/php5/fpm/pool.d/beanstalkd.conf
+      notify: restart php-fpm
+
+    - name: configure beanstalkd nginx host
+      template: src=files/beanstalkd.nginx dest=/etc/nginx/sites-available/beanstalkd
+
     # GruntJS
     - name: install gruntjs
       npm: name=grunt-cli state=present global=yes
@@ -73,6 +83,13 @@
     # Redis Commander
     - name: install redis commander
       npm: name=redis-commander state=present global=yes
+
+    - name: configure redis commander supervisor
+      template: src=files/redis.supervisor dest=/etc/supervisor/conf.d/redis.conf
+      notify: reload redis-commander
+
+    - name: configure redis commander nginx host
+      template: src=files/redis.nginx dest=/etc/nginx/sites-available/redis
 
     # Fabric
     - name: install fabric
@@ -82,3 +99,20 @@
     #- shell: sudo pecl install {{ item }}
     #  with_items:
     #    - pecl_http
+
+    - name: enable nginx hosts
+      file: src=/etc/nginx/sites-available/{{ item }} dest=/etc/nginx/sites-enabled/{{ item }} state=link
+      with_items:
+        - beanstalkd
+        - redis
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+    - name: restart php-fpm
+      service: name=php5-fpm state=restarted
+
+    - name: reload redis-commander
+      supervisorctl: name=redis state=started

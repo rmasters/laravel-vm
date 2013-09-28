@@ -1,0 +1,19 @@
+server {
+    listen 8501;
+    root /srv/beanstalkd/public;
+
+    access_log /var/log/nginx/beanstalk.access.log;
+    error_log /var/log/nginx/beanstalk.error.log notice;
+
+    location / {
+        try_files $uri @rewritephp;
+    }
+
+    location @rewritephp {
+        fastcgi_pass unix:/var/run/php-fpm-beanstalk;
+	fastcgi_split_pathinfo ^(.+\.php)(/.*)$;
+	include fastcgi_params;
+	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	fastcgi_read_timeout 10;
+    }
+}
