@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # on the guest and then provision it locally.
   if Vagrant::Util::Platform.windows?
     config.vm.provision :shell, path: "install_ansible_guest.sh"
-    config.vm.provision :shell, inline: "sudo ansible-playbook --connection=local /vagrant/playbook.yml"
+    config.vm.provision :shell, inline: "sudo -i ansible-playbook --connection=local /vagrant/playbook.yml"
   else
     config.vm.provision :ansible do |ansible|
       ansible.playbook = "playbook.yml"
