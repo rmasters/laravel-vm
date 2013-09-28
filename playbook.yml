@@ -1,0 +1,87 @@
+---
+
+- hosts: all
+  tasks:
+    # Get up-to-date
+    - name: apt-get update + upgrade
+      apt: update_cache=yes upgrade=yes
+
+    # Prerequisites
+    - name: install libs
+      apt: name={{ item }} state=present
+      with_items:
+        - build-essential
+        - git
+        - curl
+        - python-software-properties
+        - python-pip
+
+    # Some apps require node/npm
+    - name: ppa for nodejs
+      apt_repository: repo='ppa:chris-lea/node.js'
+
+    - name: install node.js
+      apt: name=nodejs state=present update_cache=yes
+
+    # PHP 5.5 + extensions
+    - name: ppa for php 5.5
+      apt_repository: repo='ppa:ondrej/php5'
+
+    - name: install php
+      apt: name={{ item }} state=present update_cache=yes
+      with_items:
+        - php5-apcu
+        - php5-cli
+        - php5-curl
+	- php5-dev
+        - php5-intl
+        - php5-mcrypt
+        - php5-memcached
+        - php5-mysql
+	- php-pear
+        - php5-pgsql
+        - php5-xdebug
+
+    # Memcached
+    - name: install memcached
+      apt: name=memcached state=present
+
+    # Redis
+    - name: install redis server
+      apt: name=redis-server state=present
+
+    # MySQL
+    - name: install mysql server
+      apt: name=mysql-server state=present
+
+    # PostgreSQL
+    - name: install postgres server
+      apt: name=postgresql
+
+    # Beanstalkd
+    - name: install beanstalkd
+      apt: name=beanstalkd
+
+    # Beanstalkd Console
+    - name: clone beanstalkd-console
+      git: repo=https://github.com/ptrofimov/beanstalk_console.git dest=/srv/beanstalkd
+
+    # GruntJS
+    - name: install gruntjs
+      npm: name=grunt-cli state=present global=yes
+
+    # Redis Commander
+    - name: install redis commander
+      npm: name=redis-commander state=present global=yes
+
+    # Fabric
+    - name: install fabric
+      pip: name=fabric state=present
+
+    # PECLs
+    #- shell: sudo pecl install {{ item }}
+    #  with_items:
+    #    - pecl_http
+
+  handlers:
+
