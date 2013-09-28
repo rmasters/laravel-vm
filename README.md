@@ -1,6 +1,6 @@
 # laravel-vm
 
-A recipe for building a development VM for working on Laravel and apps, written to [Taylor's demands][shopping-list]:
+A recipe for building a development VM for working on Laravel and apps, written to [Taylor's ~~demands~~ specifications][shopping-list]:
 
 - PHP 5.5
 - MySQL
@@ -11,6 +11,10 @@ A recipe for building a development VM for working on Laravel and apps, written 
 - Beanstalkd (w/web frontend)
 
 This uses Ansible to provison, but installs it on the guest machine [if your host is running Windows][ansible-windows].
+
+    vagrant up
+    # If provisioning doesn't happen: (i.e. lots of shell output)
+    vagrant provision
 
 [MIT licensed](LICENSE).
 
