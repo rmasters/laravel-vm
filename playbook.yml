@@ -47,6 +47,11 @@
         - php5-xdebug
       notify: start php-fpm
 
+    - name: install composer
+      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
+    - name: configure composer
+      shell: mv /usr/local/bin/composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
+
     # Memcached
     - name: install memcached
       apt: name=memcached state=present
