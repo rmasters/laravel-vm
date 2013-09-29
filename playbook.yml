@@ -1,6 +1,7 @@
 ---
 
 - hosts: all
+  user: root
   tasks:
     # Get up-to-date
     - name: apt-get update + upgrade
