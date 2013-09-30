@@ -11,10 +11,10 @@ server {
 
     location ~ \.php$ {
         fastcgi_pass unix:/var/run/php-fpm-beanstalk;
-	fastcgi_split_path_info ^(.+\.php)(/.*)$;
-	include fastcgi_params;
-	fastcgi_index index.php;
-	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-	fastcgi_read_timeout 10;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_read_timeout 10;
     }
 }

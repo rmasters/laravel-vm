@@ -8,12 +8,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "precise32"
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
-  # MySQL
-  config.vm.network :forwarded_port, guest: 3306, host: 3306
-  # Postgres
-  config.vm.network :forwarded_port, guest: 5432, host: 5432
-  # Redis
-  config.vm.network :forwarded_port, guest: 6379, host: 6379
+  # Add your Laravel app here
+  #config.vm.synced_folder "../path/to/my/app", "/srv/app"
 
   # Web - development site
   config.vm.network :forwarded_port, guest: 80, host: 8500
@@ -23,10 +19,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 8502, host: 8502
 
   config.vm.network :private_network, ip: "192.168.33.10"
-
-  # config.ssh.forward_agent = true
-
-  # config.vm.synced_folder "../path/to/app", "/app"
 
   config.vm.provider :virtualbox do |vb|
     # Use VBoxManage to customize the VM. For example to change memory:

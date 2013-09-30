@@ -99,6 +99,14 @@
     - name: configure redis commander nginx host
       template: src=files/redis.nginx dest=/etc/nginx/sites-available/redis
 
+    # Laravel app
+    - name: configure laravel php-fpm pool
+      template: src=files/laravel.php-fpm dest=/etc/php5/fpm/pool.d/laravel.conf
+      notify: restart php-fpm
+
+    - name: configure laravel nginx host
+      template: src=files/laravel.nginx dest=/etc/nginx/sites-available/laravel
+
     # Fabric
     - name: install fabric
       pip: name=fabric state=present
@@ -108,11 +116,15 @@
     #  with_items:
     #    - pecl_http
 
+    - name: disable default nginx host
+      file: dest=/etc/nginx/sites-enabled/default state=absent
+
     - name: enable nginx hosts
       file: src=/etc/nginx/sites-available/{{ item }} dest=/etc/nginx/sites-enabled/{{ item }} state=link
       with_items:
         - beanstalkd
         - redis
+        - laravel
       notify: restart nginx
 
   handlers:

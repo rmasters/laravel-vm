@@ -1,0 +1,20 @@
+server {
+    listen 80;
+    root /srv/app/public;
+
+    access_log /var/log/nginx/laravel.access.log;
+    error_log /var/log/nginx/laravel.error.log notice;
+
+    location / {
+        try_files $uri @rewritephp;
+    }
+
+    location @rewritephp {
+        fastcgi_pass unix:/var/run/php-fpm-laravel;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_read_timeout 10;
+    }
+}
