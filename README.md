@@ -24,7 +24,7 @@ The following ports are exposed:
 
 - Your Laravel app - [localhost:8500](http://localhost:8500)
 - Beanstalk Console - [localhost:8501](http://localhost:8501)
-- Redis Commander - [localhost:8502](http://localhost:8502) (currently broken, see #1)
+- Redis Commander - [localhost:8502](http://localhost:8502) (currently broken, see [#1](https://github.com/rmasters/laravel-vm/issues/1))
 
 Connect to the following services in your app or by using clients on your host by tunnelling through SSH (port 22):
 
