@@ -8,11 +8,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #config.vm.synced_folder "../path/to/my/app", "/srv/app"
 
   # Web - development site
-  config.vm.network :forwarded_port, guest: 80, host: 8500
+  config.vm.network :forwarded_port, guest: 80, host: 8500, auto_correct: true
   # Beanstalkd Console
-  config.vm.network :forwarded_port, guest: 8501, host: 8501
+  config.vm.network :forwarded_port, guest: 8501, host: 8501, auto_correct: true
   # Redis Commander
-  config.vm.network :forwarded_port, guest: 8502, host: 8502
+  config.vm.network :forwarded_port, guest: 8502, host: 8502, auto_correct: true
 
   config.vm.network :private_network, ip: "192.168.33.10"
 
