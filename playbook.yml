@@ -18,6 +18,7 @@
         - curl
         - python-software-properties
         - python-pip
+        - python-dev # For fabric's deps
         - nginx
         - supervisor
       notify: start nginx
