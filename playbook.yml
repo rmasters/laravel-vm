@@ -1,7 +1,9 @@
 ---
 
-- hosts: all
-  user: root
+- hosts:
+    - default
+  user: vagrant
+  sudo: true
   tasks:
     # Get up-to-date
     - name: apt-get update + upgrade
