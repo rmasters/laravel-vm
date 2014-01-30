@@ -13,3 +13,15 @@
 - name: Make sure NTP is running
   service: name=ntpd state=running enabled=yes
   tags: ntp
+
+- name: Update installed packages
+  apt: update_cache=yes upgrade=yes
+  tags: apt
+
+- name: Install dev packages (builds, PPAs)
+  apt: name={{ item }} state=present
+  with_items:
+    - python-software-properties
+    - build-essential
+    - python-dev
+  tags: apt

@@ -1,0 +1,23 @@
+---
+
+- name: Install key for mariadb repository
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCBCB082A1BB943DB state=present
+  tags:
+    - mariadb
+    - apt
+
+- name: Install mariadb repository
+  apt_repository: repo='deb http://mirrors.coreix.net/mariadb/repo/10.0/ubuntu precise main' state=present
+  tags:
+    - mariadb
+    - apt
+
+- name: Install mariadb server
+  apt: name=mariadb-server state=present
+  tags:
+    - mariadb
+    - apt
+
+- name: Configure mysql
+  template: src=my.cnf dest=/etc/mysql/my.cnf
+  tags: mariadb

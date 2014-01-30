@@ -1,0 +1,9 @@
+---
+
+- name: Install mysql
+  apt: name=mysql-server state=present
+  tags: mysql
+
+- name: Configure mysql
+  template: src=my.cnf dest=/etc/mysql/my.cnf
+  tags: mysql
